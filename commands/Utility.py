@@ -76,10 +76,10 @@ class Utility(commands.Cog):
         try:
             vc.play(discord.FFmpegPCMAudio(f'./temp/{ctx.message.guild.id}.mp3'), after=print("Done"))
             embed = discord.Embed(title="", description=f"Talking in : {voice_channel.name}", color=discord.Color.green())
-            await ctx.send(embed=embed)
-            
+            await ctx.send(embed=embed)    
         except discord.errors.ClientException:
             return await ctx.send(embed=error.default_error("Already playing audio"))
+        await asyncio.sleep(0.4)
         remove(f"./temp/{ctx.message.guild.id}.mp3")
 
 def setup(bot):
