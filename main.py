@@ -6,7 +6,10 @@ import os
 
 version = "0.0.2-open-beta"
 
-keep_alive()
+#Only run keep_alive if ran on replit
+if [k for k in os.environ.keys() if 'REPL_' in k] != []:
+  keep_alive()
+
 dotenv.load_dotenv()
 intents = discord.Intents.default()  
 intents.members = True 
