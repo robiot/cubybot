@@ -1,2 +1,2 @@
 import os
-os.system("pip3 install [package]")
+os.system("pip3 install PyNaCl")

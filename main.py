@@ -4,7 +4,7 @@ import discord
 import dotenv
 import os
 
-version = "0.0.21-open-beta"
+version = "0.0.2-open-beta"
 
 keep_alive()
 dotenv.load_dotenv()
