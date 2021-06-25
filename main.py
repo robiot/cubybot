@@ -1,10 +1,12 @@
+from always_active import keep_alive
 from discord.ext import commands
 import discord
 import dotenv
 import os
 
-version = "0.0.1-open-beta"
+version = "0.0.21-open-beta"
 
+keep_alive()
 dotenv.load_dotenv()
 intents = discord.Intents.default()  
 intents.members = True 

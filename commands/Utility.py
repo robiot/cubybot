@@ -7,7 +7,7 @@ from gtts import gTTS as gtts
 from discord.ext import commands
 from os import remove
 import discord
-import random
+import asyncio
 
 class Utility(commands.Cog):
     def __init__(self, bot):
@@ -67,19 +67,19 @@ class Utility(commands.Cog):
             try:
                 await vc.move_to(voice_channel)
             except asyncio.TimeoutError:
-                return await ctx.send(embed=error.voice_timeout_error(f'Moving to channel: <{channel}> timed out'))
+                return await ctx.send(embed=error.voice_timeout_error(f'Moving to channel: <{voice_channel.name}> timed out'))
         else:
             vc = await voice_channel.connect()
-        sound = gtts(text=f"{ctx.author.display_name} said {text}", lang="en", slow=False).save(f"./tmp/{ctx.message.guild.id}.mp3")
+        gtts(text=f"{ctx.author.display_name} said {text}", lang="en", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
         
         try:
-            vc.play(discord.FFmpegPCMAudio(f'./tmp/{ctx.message.guild.id}.mp3'), after=print("Done"))
+            vc.play(discord.FFmpegPCMAudio(f'./temp/{ctx.message.guild.id}.mp3'), after=print("Done"))
             embed = discord.Embed(title="", description=f"Talking in : {voice_channel.name}", color=discord.Color.green())
             await ctx.send(embed=embed)
             
         except discord.errors.ClientException:
             return await ctx.send(embed=error.default_error("Already playing audio"))
-        remove(f"./tmp/{ctx.message.guild.id}.mp3")
+        # remove(f"./temp/{ctx.message.guild.id}.mp3")
 
 def setup(bot):
     bot.add_cog(Utility(bot))
