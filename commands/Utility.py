@@ -71,9 +71,8 @@ class Utility(commands.Cog):
         else:
             vc = await voice_channel.connect()
         
-        gtts(text=f"{ctx.author.display_name} said {text}", lang="en", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
-        
         if not vc.is_playing():
+            gtts(text=f"{ctx.author.display_name} said {text}", lang="en", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
             vc.play(discord.FFmpegPCMAudio(f'./temp/{ctx.message.guild.id}.mp3'))
             embed = discord.Embed(title="", description=f"Talking in : {voice_channel.name}", color=discord.Color.green())
             await ctx.send(embed=embed)    
