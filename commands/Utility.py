@@ -56,12 +56,12 @@ class Utility(commands.Cog):
 
     @commands.command()
     async def tts(self, ctx, *, text=None):
-        if not text or len(text) >= 100: return await ctx.send(embed=error.invalid_command_usage(self.bot, "tts [text] (max 100 chars)"))
+        if not text or len(text) >= 200: return await ctx.send(embed=error.invalid_command_usage(self.bot, "tts [text] (max 200 chars)"))
         try:
             voice_channel = ctx.author.voice.channel
         except AttributeError:
             return await ctx.send(embed=error.default_error('You have to be in a voice channel to use this command.'))
-        
+
         vc = ctx.voice_client
         if vc:
             try:
@@ -70,7 +70,7 @@ class Utility(commands.Cog):
                 return await ctx.send(embed=error.voice_timeout_error(f'Moving to channel: <{voice_channel.name}> timed out'))
         else:
             vc = await voice_channel.connect()
-        
+
         if not vc.is_playing():
             gtts(text=f"{ctx.author.display_name} said {text}", lang="en", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
             vc.play(discord.FFmpegPCMAudio(f'./temp/{ctx.message.guild.id}.mp3'))
@@ -81,7 +81,6 @@ class Utility(commands.Cog):
         
         while vc.is_playing():
             await asyncio.sleep(0.1)
-
         remove(f"./temp/{ctx.message.guild.id}.mp3")
 
 def setup(bot):

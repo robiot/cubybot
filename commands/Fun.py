@@ -23,7 +23,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="8ball")
     async def _8ball(self, ctx, *, question=None):
-        if not question or len(question) < 3: return await ctx.send(embed=error.invalid_command_usage(self.bot, "8ball [question]"))
+        if not question or len(question) < 3: return await ctx.send(embed=error.invalid_command_usage(self.bot, "8ball [question] (min 3 chars)"))
         responses = [
             "It is certain.",
             "It is decidedly so.",
