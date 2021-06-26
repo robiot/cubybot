@@ -71,7 +71,7 @@ class Utility(commands.Cog):
         else:
             vc = await voice_channel.connect()
         
-        gtts(text=f"{ctx.author.display_name} said {text}", lang="en", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
+        gtts(text=f"{ctx.author.display_name} said {text}", lang="fi", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
         
         try:
             vc.play(discord.FFmpegPCMAudio(f'./temp/{ctx.message.guild.id}.mp3'), after=print("Done"))

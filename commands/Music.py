@@ -10,8 +10,8 @@ from youtube_dl import YoutubeDL
 import discord
 import asyncio
 import itertools
-import sys
 import traceback
+import sys
 
 ytdlopts = {
     'format': 'bestaudio/best',

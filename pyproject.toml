@@ -13,6 +13,7 @@ youtube_dl = "^2021.6.6"
 aiohttp = "^3.7.4"
 async-timeout = "^3.0.1"
 discord = "^1.7.3"
+PyNaCl = "^1.4.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

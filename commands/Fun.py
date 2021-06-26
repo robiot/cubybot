@@ -49,10 +49,6 @@ class Fun(commands.Cog):
         await ctx.send(random.choice(responses))
 
     @commands.command()
-    async def hentai(self, ctx):
-        await ctx.send("Um captured in 4k...")
-
-    @commands.command()
     async def howgay(self, ctx, member: discord.Member=None):
         if member is None: member = ctx.message.author
         embed = discord.Embed(title="Howgay Calculator", description=f"{member.name} is {random.randint(0,100)}% gay 🏳️‍🌈")
