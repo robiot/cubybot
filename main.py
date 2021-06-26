@@ -30,7 +30,7 @@ async def about(ctx):
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Streaming(name=f"{bot.command_prefix}help", url="https://www.twitch.tv/sus"))
+    await bot.change_presence(activity=discord.Streaming(name=f"{bot.command_prefix}help | {len(bot.guilds)} servers", url="https://www.twitch.tv/sus"))
     print(f'Online as {bot.user}!')
 
 bot.run(os.getenv('TOKEN'))
