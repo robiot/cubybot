@@ -71,7 +71,7 @@ class Utility(commands.Cog):
         else:
             vc = await voice_channel.connect()
         
-        gtts(text=f"{ctx.author.display_name} said {text}", lang="en", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
+        gtts(text=f"{ctx.author.display_name} said {text}", lang="fi", slow=False).save(f"./temp/{ctx.message.guild.id}.mp3")
         
         try:
             vc.play(discord.FFmpegPCMAudio(f'./temp/{ctx.message.guild.id}.mp3'), after=print("Done"))
@@ -79,7 +79,7 @@ class Utility(commands.Cog):
             await ctx.send(embed=embed)    
         except discord.errors.ClientException:
             return await ctx.send(embed=error.default_error("Already playing audio"))
-        await asyncio.sleep(0.6)
+        await asyncio.sleep(0.8)
         remove(f"./temp/{ctx.message.guild.id}.mp3")
 
 def setup(bot):

@@ -4,7 +4,7 @@ import discord
 import dotenv
 import os
 
-version = "0.0.2-open-beta"
+version = "0.0.3-open-beta"
 
 #Only run keep_alive if ran on replit
 if [k for k in os.environ.keys() if 'REPL_' in k] != []:

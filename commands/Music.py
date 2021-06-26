@@ -10,8 +10,8 @@ from youtube_dl import YoutubeDL
 import discord
 import asyncio
 import itertools
-import traceback
-import sys
+#import traceback
+#import sys
 
 ytdlopts = {
     'format': 'bestaudio/best',
@@ -28,7 +28,7 @@ ytdlopts = {
 }
 
 ffmpegopts = {
-    'before_options': '-nostdin',
+    'before_options': '-nostdin', '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5'
     'options': '-vn'
 }
 
@@ -155,18 +155,18 @@ class Music(commands.Cog):
             raise commands.NoPrivateMessage
         return True
 
-    async def __error(self, ctx, error):
-        if isinstance(error, commands.NoPrivateMessage):
-            try:
-                return await ctx.send('This command can not be used in Private Messages.')
-            except discord.HTTPException:
-                pass
-        elif isinstance(error, InvalidVoiceChannel):
-            return await ctx.send(embed=error.default_error('Error connecting to Voice Channel. Please make sure you are in a valid channel or provide me with one'))
-
-        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-
+#    async def __error(self, ctx, error):
+#        if isinstance(error, commands.NoPrivateMessage):
+#            try:
+#                return await ctx.send('This command can not be used in Private Messages.')
+#            except discord.HTTPException:
+#                pass
+#        elif isinstance(error, InvalidVoiceChannel):
+#            return await ctx.send(embed=error.default_error('Error connecting to Voice Channel. Please make sure you are in a valid channel or provide me with one'))
+#
+#        print('Ignoring exception in command {}:'.format(ctx.command), #file=sys.stderr)
+#        traceback.print_exception(type(error), error, error.__traceback__, #file=sys.stderr)
+#
     def get_player(self, ctx):
         try:
             player = self.players[ctx.guild.id]
