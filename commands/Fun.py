@@ -54,6 +54,17 @@ class Fun(commands.Cog):
         embed = discord.Embed(title="Howgay Calculator", description=f"{member.name} is {random.randint(0,100)}% gay 🏳️‍🌈")
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def pp(self, ctx, member: discord.Member=None):
+        if member is None: member = ctx.message.author
+        embed = discord.Embed(title="Peepe Size Calculator", description=f"{member.name}'s pp\n 8{''.join('=' for i in range(random.randint(0,20)))}D")
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def joke(self, ctx):
+        async with aiohttp.request('GET', 'https://icanhazdadjoke.com', headers={'Accept': 'text/plain'}) as r:
+            await ctx.send(await r.text())
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
