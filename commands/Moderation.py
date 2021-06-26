@@ -2,7 +2,6 @@
 # Moderation.py
 ##############
 
-from re import purge
 from discord.ext.commands.errors import CheckFailure
 from Errors import Errors as _error
 from discord.ext import commands
@@ -20,10 +19,10 @@ class Moderation(commands.Cog):
         await ctx.send(f'Removed **{count}** messages.', delete_after=5)
     @purge.error
     async def purge_error(self, ctx, error):
-        if isinstance(error, commands.CheckFailure):
-            await ctx.send(embed=_error.default_error("You don't have permission to use this command."))
+        if isinstance(error, commands.MissingPermissions):
+            return await ctx.send(embed=_error.user_missing_permission("Manage Messages"))
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(embed=_error.invalid_command_usage(self.bot, "purge [amount] (max 100)"))
+            return await ctx.send(embed=_error.invalid_command_usage(self.bot, "purge [amount] (max 100)"))
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
