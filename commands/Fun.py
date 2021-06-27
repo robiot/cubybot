@@ -1,8 +1,7 @@
 ##############
 # Fun.py
 ##############
-
-from Errors import Errors as error
+from commons import Error
 from discord.ext import commands
 import discord
 import aiohttp
@@ -23,7 +22,7 @@ class Fun(commands.Cog):
 
     @commands.command(name="8ball")
     async def _8ball(self, ctx, *, question=None):
-        if not question or len(question) < 3: return await ctx.send(embed=error.invalid_command_usage(self.bot, "8ball [question] (min 3 chars)"))
+        if not question or len(question) < 3: return await ctx.send(embed=Error.invalid_command_usage(self.bot, "8ball [question] (min 3 chars)"))
         responses = [
             "It is certain.",
             "It is decidedly so.",

@@ -2,10 +2,10 @@
 # Utility.py
 ##############
 
-from Errors import Errors as error
+from commons import Error
 from gtts import gTTS as gtts
-from discord.ext import commands
 from os import remove
+from discord.ext import commands
 import discord
 import asyncio
 
@@ -43,7 +43,7 @@ class Utility(commands.Cog):
 
     @commands.command()
     async def poll(self, ctx, *, text=None):
-        if text == None: await ctx.send(embed=error.invalid_command_usage(self.bot, "poll [text]")); return
+        if text == None: await ctx.send(embed=Error.invalid_command_usage(self.bot, "poll [text]")); return
         embed = discord.Embed(title=text, color=discord.Color.teal())
         poll = await ctx.send(embed=embed)
         await poll.add_reaction('✅')
@@ -56,18 +56,18 @@ class Utility(commands.Cog):
 
     @commands.command()
     async def tts(self, ctx, *, text=None):
-        if not text or len(text) >= 100: return await ctx.send(embed=error.invalid_command_usage(self.bot, "tts [text] (max 100 chars)"))
+        if not text or len(text) >= 100: return await ctx.send(embed=Error.invalid_command_usage(self.bot, "tts [text] (max 100 chars)"))
         try:
             voice_channel = ctx.author.voice.channel
         except AttributeError:
-            return await ctx.send(embed=error.default_error('You have to be in a voice channel to use this command.'))
+            return await ctx.send(embed=Error.default_error('You have to be in a voice channel to use this command.'))
         
         vc = ctx.voice_client
         if vc:
             try:
                 await vc.move_to(voice_channel)
             except asyncio.TimeoutError:
-                return await ctx.send(embed=error.voice_timeout_error(f'Moving to channel: <{voice_channel.name}> timed out'))
+                return await ctx.send(embed=Error.voice_timeout_error(f'Moving to channel: <{voice_channel.name}> timed out'))
         else:
             vc = await voice_channel.connect()
         
@@ -78,7 +78,7 @@ class Utility(commands.Cog):
             embed = discord.Embed(title="", description=f"Talking in : {voice_channel.name}", color=discord.Color.green())
             await ctx.send(embed=embed)    
         except discord.errors.ClientException:
-            return await ctx.send(embed=error.default_error("Already playing audio"))
+            return await ctx.send(embed=Error.default_error("Already playing audio"))
         await asyncio.sleep(0.4)
         remove(f"./temp/{ctx.message.guild.id}.mp3")
 

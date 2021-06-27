@@ -1,5 +1,5 @@
 ##############
-# Errors.py
+# Error.py
 ##############
 
 import discord

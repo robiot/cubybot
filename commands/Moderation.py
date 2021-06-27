@@ -2,8 +2,7 @@
 # Moderation.py
 ##############
 
-from discord.ext.commands.errors import CheckFailure
-from Errors import Errors as _error
+from commons import Error
 from discord.ext import commands
 
 class Moderation(commands.Cog):
@@ -20,9 +19,9 @@ class Moderation(commands.Cog):
     @purge.error
     async def purge_error(self, ctx, error):
         if isinstance(error, commands.MissingPermissions):
-            return await ctx.send(embed=_error.user_missing_permission("Manage Messages"))
+            return await ctx.send(embed=Error.user_missing_permission("Manage Messages"))
         if isinstance(error, commands.MissingRequiredArgument):
-            return await ctx.send(embed=_error.invalid_command_usage(self.bot, "purge [amount] (max 100)"))
+            return await ctx.send(embed=Error.invalid_command_usage(self.bot, "purge [amount] (max 100)"))
 
 def setup(bot):
     bot.add_cog(Moderation(bot))

@@ -2,7 +2,7 @@
 # Music.py
 ##############
 
-from Errors import Errors as error
+from commons import Error
 from discord.ext import commands
 from async_timeout import timeout
 from functools import partial
@@ -155,17 +155,17 @@ class Music(commands.Cog):
             raise commands.NoPrivateMessage
         return True
 
-#    async def __error(self, ctx, error):
-#        if isinstance(error, commands.NoPrivateMessage):
-#            try:
-#                return await ctx.send('This command can not be used in Private Messages.')
-#            except discord.HTTPException:
-#                pass
-#        elif isinstance(error, InvalidVoiceChannel):
-#            return await ctx.send(embed=error.default_error('Error connecting to Voice Channel. Please make sure you are in a valid channel or provide me with one'))
-#
-#        print('Ignoring exception in command {}:'.format(ctx.command), #file=sys.stderr)
-#        traceback.print_exception(type(error), error, error.__traceback__, #file=sys.stderr)
+    # async def __error(self, ctx, error):
+    #     if isinstance(error, commands.NoPrivateMessage):
+    #         try:
+    #             return await ctx.send('This command can not be used in Private Messages.')
+    #         except discord.HTTPException:
+    #             pass
+    #     elif isinstance(error, commands.InvalidVoiceChannel):
+    #         return await ctx.send(embed=error.default_error('Error connecting to Voice Channel. Please make sure you are in a valid channel or provide me with one'))
+
+    #     print('Ignoring exception in command {}:'.format(ctx.command), #file=sys.stderr)
+    #     traceback.print_exception(type(error), error, error.__traceback__, #file=sys.stderr)
 #
     def get_player(self, ctx):
         try:
@@ -182,7 +182,7 @@ class Music(commands.Cog):
         try:
             channel = ctx.author.voice.channel
         except AttributeError:
-            return await ctx.send(embed=error.default_error('You have to be in a voice channel to use this command.'))
+            return await ctx.send(embed=Error.default_error('You have to be in a voice channel to use this command.'))
 
         vc = ctx.voice_client
         if vc:
@@ -191,20 +191,18 @@ class Music(commands.Cog):
             try:
                 await vc.move_to(channel)
             except asyncio.TimeoutError:
-                return await ctx.send(embed=error.voice_timeout_error(f'Moving to channel: <{channel}> timed out'))
+                return await ctx.send(embed=Error.voice_timeout_error(f'Moving to channel: <{channel}> timed out'))
         else:
             try:
                 await channel.connect()
             except asyncio.TimeoutError:
-                return await ctx.send(embed=error.default_error(f'Connecting to channel: <{channel}> timed out'))
-            except Exception as Ex:
-                return await ctx.send(embed=error.default_error(Ex))
+                return await ctx.send(embed=Error.default_error(f'Connecting to channel: <{channel}> timed out'))
                 
         await ctx.send(f'Connected to: **{channel}**')
 
     @commands.command(name='play', aliases=['p'])
     async def play_(self, ctx, *, search=None):
-        if search == None:  return await ctx.send(embed=error.invalid_command_usage(self.bot, 'play [name]/[link]'))
+        if search == None:  return await ctx.send(embed=Error.invalid_command_usage(self.bot, 'play [name]/[link]'))
         await ctx.trigger_typing()
         vc = ctx.voice_client
         if not vc:
@@ -251,7 +249,7 @@ class Music(commands.Cog):
     async def queue_info(self, ctx):
         vc = ctx.voice_client
         if not vc or not vc.is_connected():
-            return await ctx.send(embed=error.default_error('I am not connected to a voice channel'))
+            return await ctx.send(embed=Error.default_error('I am not connected to a voice channel'))
         player = self.get_player(ctx)
         if player.queue.empty():
             return await ctx.send('There are currently no more queued songs.')
@@ -264,10 +262,11 @@ class Music(commands.Cog):
 
     @commands.command(name='np', aliases=['nowplaying', 'current', 'currentsong', 'playing'])
     async def now_playing_(self, ctx):
+        #Add duration and current timestamp
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send(embed=error.default_error('I am not connected to a voice channel'))
+            return await ctx.send(embed=Error.default_error('I am not connected to a voice channel'))
 
         player = self.get_player(ctx)
         if not player.current:
@@ -286,10 +285,10 @@ class Music(commands.Cog):
         vc = ctx.voice_client
 
         if not vc or not vc.is_connected():
-            return await ctx.send(embed=error.default_error('I am not connected to a voice channel'))
+            return await ctx.send(embed=Error.default_error('I am not connected to a voice channel'))
 
         if not 0 < vol < 101:
-            return await ctx.send(embed=error.default_error('Please enter a value between 1 and 100.'))
+            return await ctx.send(embed=Error.default_error('Please enter a value between 1 and 100.'))
 
         player = self.get_player(ctx)
 
