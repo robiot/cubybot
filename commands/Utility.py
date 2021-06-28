@@ -56,7 +56,7 @@ class Utility(commands.Cog):
 
     @commands.command()
     async def tts(self, ctx, *, text=None):
-        if not text or len(text) >= 100: return await ctx.send(embed=Error.invalid_command_usage(self.bot, "tts [text] (max 100 chars)"))
+        if not text or len(text) >= 200: return await ctx.send(embed=Error.invalid_command_usage(self.bot, "tts [text] (max 200 chars)"))
         try:
             voice_channel = ctx.author.voice.channel
         except AttributeError:
@@ -79,7 +79,9 @@ class Utility(commands.Cog):
             await ctx.send(embed=embed)    
         except discord.errors.ClientException:
             return await ctx.send(embed=Error.default_error("Already playing audio"))
-        await asyncio.sleep(0.4)
+        
+        while vc.is_playing():
+            await asyncio.sleep(0.1)
         remove(f"./temp/{ctx.message.guild.id}.mp3")
 
 def setup(bot):
